@@ -6,6 +6,7 @@ from time import sleep
 from urllib.parse import urlparse, parse_qs
 
 from bs4 import BeautifulSoup
+from requests.exceptions import ConnectionError
 import requests
 
 import database
@@ -225,13 +226,20 @@ def store_deck(deck: Deck) -> None:
     for entry in deck.decklist:
         database.insert('INSERT INTO deck_card (deck_id, card, num, sideboard) VALUES (?, ?, ?, ?)', [deck.id, entry.card, entry.num, entry.sideboard])
 
-def fetch(method: HTTPMethod, path: str, data: dict | None = None) -> str:
+def fetch(method: HTTPMethod, path: str, data: dict | None = None, failures: int = 0) -> str:
     s = f'Fetching {method} {path}'
     if data:
         s += f' with {data}'
     print(s)
     sleep(0.1)
-    response = requests.request(method, f'https://www.mtgtop8.com{path}', data=data)
+    try:
+        response = requests.request(method, f'https://www.mtgtop8.com{path}', data=data)
+    except ConnectionError:
+        print(f"Connection error. {failures} failures so far.")
+        if failures > 2:
+            raise
+        sleep(5)
+        return fetch(method, path, data, failures + 1)
     return response.text
 
 main()
