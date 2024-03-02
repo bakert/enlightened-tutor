@@ -1,0 +1,14 @@
+# Configuration
+config.ini
+
+# venv
+pyvenv.cfg
+bin/
+lib/
+include/
+
+# Python cache
+__pycache__/
+
+# PyCharm
+.idea/
