@@ -1,0 +1,3 @@
+- Account for cards that exist but are not in the database in typeahead search
+- Steal dev and prod stuff from https://github.com/zauberzeug/nicegui/blob/main/examples/fastapi/start.sh
+- I hate the way all the web stuff is stuck "inside" web.init - break it out of there
