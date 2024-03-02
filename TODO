@@ -1,3 +1,15 @@
 - Account for cards that exist but are not in the database in typeahead search
 - Steal dev and prod stuff from https://github.com/zauberzeug/nicegui/blob/main/examples/fastapi/start.sh
 - I hate the way all the web stuff is stuck "inside" web.init - break it out of there
+- More than one card as input
+- Scryfall search for cards?
+- Prices
+- Ability to say what formats you do and do not care about
+- Overall score for a card
+- Link back to ntgotop8.com as the "explanation" of the score
+- CubeCobra
+- Penny Dreadful as a format (using pd rank?)
+- "Normal" EDH using edhrec rank
+- Suppress Duel Commander, Canadian Highlander, Highlander and maybe others by default?
+- Configurable "formats I care about"
+- Right-align the score rather than putting it on the left

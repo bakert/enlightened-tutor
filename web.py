@@ -15,7 +15,9 @@ def init(fastapi_app: FastAPI) -> None:
             if response:
                 with results:
                     for format, score in response.playability.items():
-                        ui.label(f'{format}: {score:.2f}')
+                        display_score = round(score * 100)
+                        ui.label(f'{display_score} {format}')
+                        ui.linear_progress(value=score, show_value=False)
 
         cs = cards.get_card_names()
         ui.html('<h1>Enlightened Tutor</h1>')

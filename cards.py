@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 import database
+import formats
 
 @dataclass
 class Card:
@@ -8,10 +9,10 @@ class Card:
     playability: dict[str, float]
 
 def get_card(card: str) -> Card | None:
-    rs = database.select('SELECT card, normalized_score, format FROM card_playability WHERE card = ?', [card])
+    rs = database.select('SELECT normalized_score, format FROM card_playability WHERE card = ? ORDER BY normalized_score DESC, format', [card])
     if not rs:
         return None
-    playability = {row['format']: row['normalized_score'] for row in rs}
+    playability = {formats.display_name(row['format']): row['normalized_score'] for row in rs}
     return Card(card, playability)
 
 def get_card_names() -> list[dict]:
