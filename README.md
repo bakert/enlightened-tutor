@@ -13,7 +13,7 @@ MIT License
 5. $ source bin/activate
 6. $ pip install -r requirements.txt
 7. Install mariadb
-8. mysql> CREATE USER 'enlightened_tutor'@'localhost' IDENTIFIED BY 'fjdksofy793rjiledjvl';
+8. mysql> CREATE USER 'enlightened_tutor'@'localhost' IDENTIFIED BY 'YOUR-PASSWORD-HERE';
    mysql> GRANT ALL ON enlightened_tutor.* TO 'enlightened_tutor'@'localhost';
 9. Run the SQL in enlightened-tutor.sql
 10. Copy config.ini.example to config.ini and fill in the database information
