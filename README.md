@@ -24,5 +24,6 @@ MIT License
 (Note: this will not give interesting results until the database is populated)
 
 ### Tournament Decklist Scraper
-- $ python3 mtgtop8.py
+- Restore latest file in data/ to avoid hours of requests
+- $ python3 mtgtop8.py # You can kill this once it starts seeing decks you already have
 - $ python3 -c "import cards; cards.set_playability()"
