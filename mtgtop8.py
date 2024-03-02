@@ -175,10 +175,9 @@ def parse_event(event_id: int, event_name: str, format: Format, s: str) -> Event
     # 	<div class="meta_arch" style="padding:2px;">Pioneer <img src="/graph/bigstar.png" height="20"></div>
     level = parse_level(divs[0])
     # 	<div style="margin-bottom:5px;">257 players - 23/02/24</div>
-    print(divs[1].string)
     if ' - ' in divs[1].string:
         parts = divs[1].string.split(' - ')
-        num_players = int(parts[0].replace(' players', ''))
+        num_players = int(parts[0].replace(' players', '').replace(' teams', ''))
         date_s = parts[1]
     else:
         num_players = None
