@@ -1,6 +1,3 @@
-- Account for cards that exist but are not in the database in typeahead search
-- Steal dev and prod stuff from https://github.com/zauberzeug/nicegui/blob/main/examples/fastapi/start.sh
-- I hate the way all the web stuff is stuck "inside" web.init - break it out of there
 - More than one card as input
 - Scryfall search for cards?
 - Prices
@@ -13,3 +10,10 @@
 - Suppress Duel Commander, Canadian Highlander, Highlander and maybe others by default?
 - Configurable "formats I care about"
 - Right-align the score rather than putting it on the left
+- Remove NiceGUI branding, add a title/favicon
+- cron to keep db (and playability, and card names) up to date
+- Typography, including "not played in any format" display
+- Focus on search box automatically
+- Linter
+- CI/CD in github
+- I hate the way all the web stuff is stuck "inside" web.init - break it out of there

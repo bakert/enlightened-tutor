@@ -9,14 +9,23 @@ class Card:
     playability: dict[str, float]
 
 def get_card(card: str) -> Card | None:
-    rs = database.select('SELECT normalized_score, format FROM card_playability WHERE card = ? ORDER BY normalized_score DESC, format', [card])
-    if not rs:
+    rs = database.select('SELECT card, normalized_score, format FROM card_playability WHERE card = ? ORDER BY normalized_score DESC, format', [card])
+    if rs:
+        playability = {formats.display_name(row['format']): row['normalized_score'] for row in rs}
+        return Card(rs[0]['card'], playability)
+    name = database.value('SELECT name FROM card WHERE name = ?', [card])
+    if not name:
         return None
-    playability = {formats.display_name(row['format']): row['normalized_score'] for row in rs}
-    return Card(card, playability)
+    return Card(name, {})
 
 def get_card_names() -> list[dict]:
-    return database.values('SELECT DISTINCT card FROM card_playability ORDER BY normalized_score DESC, card', [])
+    sql = """
+        SELECT DISTINCT card, normalized_score FROM card_playability
+        UNION
+        SELECT name AS card, -1 AS normalized_score FROM card WHERE name NOT IN (SELECT card FROM card_playability)
+        ORDER BY normalized_score DESC, card
+    """
+    return database.values(sql, [])
 
 def set_playability() -> None:
     database.execute('''
@@ -67,6 +76,5 @@ def set_playability() -> None:
         ORDER BY
             cs.format, 
             normalized_score DESC,
-            cs.card;
-
+            cs.card
     ''', [])

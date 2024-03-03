@@ -16,14 +16,15 @@ MIT License
 - $ mysql
 - mysql> CREATE USER 'enlightened_tutor'@'localhost' IDENTIFIED BY 'YOUR-PASSWORD-HERE';
 - mysql> GRANT ALL ON enlightened_tutor.* TO 'enlightened_tutor'@'localhost';
-- Run the SQL in enlightened-tutor.sql
+- Run the SQL in enlightened-tutor.sql, or restore a backup from data/
 - Copy config.ini.example to config.ini and fill in the database information
 
 ### Web Server
 - $ bin/uvicorn web:app --reload --log-level info --port 8000
 (Note: this will not give interesting results until the database is populated)
 
-### Tournament Decklist Scraper
+### Populate Database
 - Restore latest file in data/ to avoid hours of requests
 - $ python3 mtgtop8.py # You can kill this once it starts seeing decks you already have
 - $ python3 -c "import cards; cards.set_playability()"
+- $ python3 -c 'import scryfall; scryfall.import_cards()'

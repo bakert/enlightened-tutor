@@ -27,6 +27,12 @@ def values(sql: str, args: list) -> list[Any]:
     rs = select(sql, args)
     return [list(row.values())[0] for row in rs]
 
+def value(sql: str, args: list) -> Any | None:
+    rs = select(sql, args)
+    if rs:
+        return list(rs[0].values())[0]
+    return None
+
 def insert(sql: str, args: list) -> int:
     return execute(sql, args)
 

@@ -29,3 +29,7 @@ CREATE TABLE IF NOT EXISTS deck_card (
     num INT NOT NULL,
     sideboard BOOLEAN NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS card (
+    name VARCHAR(255) PRIMARY KEY
+);
