@@ -1,0 +1,25 @@
+[bakert@hotblackdesiato ~]$ cd /srv
+[bakert@hotblackdesiato srv]$ mkdir enlightened-tutor
+[bakert@hotblackdesiato srv]$ cd enlightened-tutor/
+[bakert@hotblackdesiato srv]$ git clone https://github.com/bakert/enlightened-tutor src
+[bakert@hotblackdesiato enlightened-tutor]$ mkdir logs
+[bakert@hotblackdesiato enlightened-tutor]$ python3 --version
+Python 3.10.12
+[bakert@hotblackdesiato enlightened-tutor]$ cd src
+[bakert@hotblackdesiato src]$ sudo apt install python3.10-venv
+[bakert@hotblackdesiato src]$ source bin/activate
+(src) [bakert@hotblackdesiato src]$ wget https://r.mariadb.com/downloads/mariadb_repo_setup
+(src) [bakert@hotblackdesiato src]$ echo "30d2a05509d1c129dd7dd8430507e6a7729a4854ea10c9dcf6be88964f3fdc25  mariadb_repo_setup" \
+    | sha256sum -c -
+mariadb_repo_setup: OK
+(src) [bakert@hotblackdesiato src]$ chmod +x mariadb_repo_setup
+(src) [bakert@hotblackdesiato src]$ sudo ./mariadb_repo_setup \
+   --mariadb-server-version="mariadb-10.6"
+(src) [bakert@hotblackdesiato src]$ sudo apt install libmariadb3 libmariadb-dev
+(src) [bakert@hotblackdesiato src]$ sudo apt-get install python3-dev
+(src) [bakert@hotblackdesiato src]$ pip install -r requirements.txt
+(src) [bakert@hotblackdesiato src]$ mysql
+mysql> CREATE USER 'enlightened_tutor'@'localhost' IDENTIFIED BY 'YOUR-PASSWORD-HERE';
+mysql> GRANT ALL ON enlightened_tutor.* TO 'enlightened_tutor'@'localhost';
+(src) [bakert@hotblackdesiato src]$ mysql enlightened_tutor <data/enlightened_tutor-2024-03-02-12-17.sql 
+(src) [bakert@hotblackdesiato src]$ uvicorn web:app --reload --port=8004
