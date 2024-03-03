@@ -40,21 +40,7 @@ def init(fastapi_app: FastAPI) -> None:
                 return
             with results:
                 if c.name not in showing:
-                    highest = display_score(max(c.playability.values(), default=0))
-                    with ui.card() as card_ui:
-                        with ui.row().classes("w-full"):
-                            ui.html(f"<h2>{c.name}</h2>").classes("text-xl")
-                            ui.space()
-                            ui.html(f"<h2>{highest}</h2>").classes("text-xl")
-                        for (format_name, format_code), score in c.playability.items():
-                            with ui.link(target=f"https://mtgtop8.com/search?MD_check=1&SB_check=1&format={format_code}&cards={c.name}").classes("w-full no-underline hover:underline"):
-                                with ui.row():
-                                    ui.label(f"{format_name}")
-                                    ui.space()
-                                    ui.label(f"{display_score(score)}")
-                                ui.linear_progress(value=score, show_value=False)
-                        if not c.playability:
-                            ui.label("Not played in any format")
+                    card_ui = make_card(c)
                     showing[c.name] = card_ui
                 showing[c.name].move(target_index=0)
 
@@ -85,6 +71,25 @@ def init(fastapi_app: FastAPI) -> None:
 
 def display_score(score: float) -> int:
     return round(score * 100)
+
+
+def make_card(c: cards.Card) -> nicegui.elements.card.Card:
+    highest = display_score(max(c.playability.values(), default=0))
+    with ui.card() as card_ui:
+        with ui.row().classes("w-full"):
+            ui.html(f"<h2>{c.name}</h2>").classes("text-xl")
+            ui.space()
+            ui.html(f"<h2>{highest}</h2>").classes("text-xl")
+        for (format_name, format_code), score in c.playability.items():
+            with ui.link(target=f"https://mtgtop8.com/search?MD_check=1&SB_check=1&format={format_code}&cards={c.name}").classes("w-full no-underline hover:underline"):
+                with ui.row():
+                    ui.label(f"{format_name}")
+                    ui.space()
+                    ui.label(f"{display_score(score)}")
+                ui.linear_progress(value=score, show_value=False)
+        if not c.playability:
+            ui.label("Not played in any format")
+    return card_ui
 
 
 init(app)
