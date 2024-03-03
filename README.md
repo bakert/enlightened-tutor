@@ -12,6 +12,7 @@ MIT License
 - $ python3 -m venv .
 - $ source bin/activate
 - $ pip install -r requirements.txt
+- $ pre-commit install
 - Install mariadb
 - $ mysql
 - mysql> CREATE USER 'enlightened_tutor'@'localhost' IDENTIFIED BY 'YOUR-PASSWORD-HERE';

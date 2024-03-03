@@ -2,5 +2,7 @@ beautifulsoup4
 fastapi
 mariadb
 nicegui
+pre-commit
 requests
+ruff
 uvicorn[standard]

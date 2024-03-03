@@ -3,20 +3,31 @@ from dataclasses import dataclass
 import database
 import formats
 
+
 @dataclass
 class Card:
     name: str
-    playability: dict[str, float]
+    playability: dict[tuple[str, str], float]
+
 
 def get_card(card: str) -> Card | None:
-    rs = database.select('SELECT card, normalized_score, format FROM card_playability WHERE card = ? ORDER BY normalized_score DESC, format', [card])
+    rs = database.select(
+        "SELECT card, normalized_score, format FROM card_playability WHERE card = ? ORDER BY normalized_score DESC, format",
+        [card],
+    )
     if rs:
-        playability = {formats.display_name(row['format']): row['normalized_score'] for row in rs}
-        return Card(rs[0]['card'], playability)
-    name = database.value('SELECT name FROM card WHERE name = ?', [card])
+        playability = {
+            (formats.display_name(row["format"]), row["format"]): row[
+                "normalized_score"
+            ]
+            for row in rs
+        }
+        return Card(rs[0]["card"], playability)
+    name = database.value("SELECT name FROM card WHERE name = ?", [card])
     if not name:
         return None
     return Card(name, {})
+
 
 def get_card_names() -> list[dict]:
     sql = """
@@ -27,8 +38,10 @@ def get_card_names() -> list[dict]:
     """
     return database.values(sql, [])
 
+
 def set_playability() -> None:
-    database.execute('''
+    database.execute(
+        """
         CREATE OR REPLACE TABLE card_playability AS
         WITH card_scores AS (
             SELECT
@@ -74,7 +87,9 @@ def set_playability() -> None:
         INNER JOIN
             max_scores AS ms ON cs.format = ms.format
         ORDER BY
-            cs.format, 
+            cs.format,
             normalized_score DESC,
             cs.card
-    ''', [])
+    """,
+        [],
+    )

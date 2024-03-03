@@ -23,3 +23,7 @@ mysql> CREATE USER 'enlightened_tutor'@'localhost' IDENTIFIED BY 'YOUR-PASSWORD-
 mysql> GRANT ALL ON enlightened_tutor.* TO 'enlightened_tutor'@'localhost';
 (src) [bakert@hotblackdesiato src]$ mysql enlightened_tutor <data/enlightened_tutor-2024-03-02-12-17.sql 
 (src) [bakert@hotblackdesiato src]$ uvicorn web:app --reload --port=8004
+sudo a2enmod proxy
+sudo a2enmod proxy_http
+sudo a2enmod proxy_wstunnel
+sudo systemctl restart apache2

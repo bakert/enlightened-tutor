@@ -4,12 +4,20 @@ import mariadb
 
 import config
 
+
 class Database:
     def __init__(self) -> None:
-        self.connection = mariadb.connect(host=config.get('database', 'host'), user=config.get('database', 'user'), password=config.get('database', 'password'), database=config.get('database', 'database'))
+        self.connection = mariadb.connect(
+            host=config.get("database", "host"),
+            user=config.get("database", "user"),
+            password=config.get("database", "password"),
+            database=config.get("database", "database"),
+        )
         self.cursor = self.connection.cursor(dictionary=True)
 
-    def execute(self, sql: str, args: list, fetch_rows: bool = False) -> list[dict] | int:
+    def execute(
+        self, sql: str, args: list, fetch_rows: bool = False
+    ) -> list[dict] | int:
         print(sql, args)
         self.cursor.execute(sql, args)
         self.connection.commit()
@@ -17,15 +25,19 @@ class Database:
             return self.cursor.fetchall()
         return self.cursor.rowcount
 
+
 def execute(sql: str, args: list) -> int:
     return DB.execute(sql, args)
+
 
 def select(sql: str, args: list) -> list[dict[str, Any]]:
     return DB.execute(sql, args, fetch_rows=True)
 
+
 def values(sql: str, args: list) -> list[Any]:
     rs = select(sql, args)
     return [list(row.values())[0] for row in rs]
+
 
 def value(sql: str, args: list) -> Any | None:
     rs = select(sql, args)
@@ -33,7 +45,9 @@ def value(sql: str, args: list) -> Any | None:
         return list(rs[0].values())[0]
     return None
 
+
 def insert(sql: str, args: list) -> int:
     return execute(sql, args)
+
 
 DB = Database()
