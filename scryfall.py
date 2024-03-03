@@ -1,11 +1,11 @@
 import json
 
-import requests
+import requests  # type: ignore[import-untyped]
 
 import database
 
 
-def import_cards():
+def import_cards() -> int:
     response = requests.get("https://api.scryfall.com/catalog/card-names")
     d = json.loads(response.text)
     cards = d["data"]

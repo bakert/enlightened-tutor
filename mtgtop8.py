@@ -3,11 +3,13 @@ from datetime import datetime
 from enum import Enum
 from http import HTTPMethod
 from time import sleep
+from typing import Any
 from urllib.parse import urlparse, parse_qs
 
 from bs4 import BeautifulSoup
-from requests.exceptions import ConnectionError
-import requests
+from requests.exceptions import ConnectionError  # type: ignore[import-untyped]
+import bs4
+import requests  # type: ignore[import-untyped]
 
 import database
 
@@ -56,7 +58,7 @@ class Row:
     event_name: str
     event_id: int
     level: Level
-    rank: Rank | None
+    rank: Rank
     date: datetime
 
 
@@ -123,9 +125,9 @@ def parse_search(s: str) -> list[Row]:
         deck_name = tds[1].a.string or ""
         parsed_url = urlparse(tds[1].a["href"])
         qs = parse_qs(parsed_url.query)
-        deck_id = int(qs.get("d")[0])
-        event_id = int(qs.get("e")[0])
-        format = Format(qs.get("f")[0])
+        deck_id = int(qs.get("d", [""])[0])
+        event_id = int(qs.get("e", [""])[0])
+        format = Format(qs.get("f", [""])[0])
         #     <td class=G12>
         #         <a class=player href=search?player= Josh+Bradbury>Josh Bradbury</a>
         #     </td>
@@ -151,7 +153,7 @@ def parse_search(s: str) -> list[Row]:
     return rows
 
 
-def parse_level(elem) -> Level:
+def parse_level(elem: bs4.element.Tag) -> Level:
     if "bigstar" in str(elem):
         return Level.PROFESSIONAL
     return Level(
@@ -159,7 +161,7 @@ def parse_level(elem) -> Level:
     )  # 1, 2 or 3 star images for the three lower levels
 
 
-def parse_rank(rank: str) -> Rank | None:
+def parse_rank(rank: str) -> Rank:
     if not rank:
         return Rank(None, None)
     try:
@@ -184,7 +186,7 @@ def load_event(event_id: int) -> Event | None:
         "SELECT id, name, format, url, level, num_players, date FROM event WHERE id = ?",
         [event_id],
     )
-    return Event(**result[0]) if result else None
+    return Event(**result[0]) if result else None  # type: ignore[arg-type]
 
 
 def fetch_event(event_id: int, event_name: str, format: Format) -> Event:
@@ -231,7 +233,7 @@ def store_event(event: Event) -> Event:
             event.num_players,
         ],
     )
-    return load_event(event.id)
+    return load_event(event.id)  # type: ignore[return-value]
 
 
 def load_or_fetch_deck(
@@ -277,7 +279,7 @@ def store_deck(deck: Deck) -> None:
 
 
 def fetch(
-    method: HTTPMethod, path: str, data: dict | None = None, failures: int = 0
+    method: HTTPMethod, path: str, data: dict[str, Any] | None = None, failures: int = 0
 ) -> str:
     s = f"Fetching {method} {path}"
     if data:
@@ -292,7 +294,7 @@ def fetch(
             raise
         sleep(5)
         return fetch(method, path, data, failures + 1)
-    return response.text
+    return response.text  # type: ignore[no-any-return]
 
 
 main()

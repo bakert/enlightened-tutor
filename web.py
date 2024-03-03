@@ -3,6 +3,7 @@ import re
 
 from fastapi import FastAPI
 from nicegui import events, ui
+import nicegui
 
 import cards
 
@@ -10,9 +11,9 @@ app = FastAPI()
 
 
 def init(fastapi_app: FastAPI) -> None:
-    @ui.page("/", title="Enlightened Tutor", favicon="🔍")
-    def home():
-        showing = {}
+    @ui.page("/", title="Enlightened Tutor", favicon="🔍")  # type: ignore[misc]
+    def home() -> None:
+        showing: dict[str, nicegui.elements.card.Card] = {}
 
         async def search(e: events.ValueChangeEventArguments) -> None:
             await show_card(e.value)
@@ -44,7 +45,6 @@ def init(fastapi_app: FastAPI) -> None:
                             ui.space()
                             ui.html(f"<h2>{highest}</h2>").classes("text-xl")
                         for (format_name, format_code), score in c.playability.items():
-                            # BAKERT also provide format so this works how we want
                             with ui.link(
                                 target=f"https://mtgtop8.com/search?MD_check=1&SB_check=1&format={format_code}&cards={c.name}"
                             ).classes("w-full no-underline hover:underline"):

@@ -16,27 +16,28 @@ def get_card(card: str) -> Card | None:
         [card],
     )
     if rs:
+        # BAKERT mess
         playability = {
-            (formats.display_name(row["format"]), row["format"]): row[
+            (formats.display_name(row["format"]), row["format"]): row[  # type: ignore[arg-type]
                 "normalized_score"
             ]
             for row in rs
         }
-        return Card(rs[0]["card"], playability)
+        return Card(rs[0]["card"], playability)  # type: ignore[arg-type]
     name = database.value("SELECT name FROM card WHERE name = ?", [card])
     if not name:
         return None
-    return Card(name, {})
+    return Card(name, {})  # type: ignore[arg-type]
 
 
-def get_card_names() -> list[dict]:
+def get_card_names() -> list[dict[str, float]]:
     sql = """
         SELECT DISTINCT card, normalized_score FROM card_playability
         UNION
         SELECT name AS card, -1 AS normalized_score FROM card WHERE name NOT IN (SELECT card FROM card_playability)
         ORDER BY normalized_score DESC, card
     """
-    return database.values(sql, [])
+    return database.values(sql, [])  # type: ignore[return-value]
 
 
 def set_playability() -> None:
