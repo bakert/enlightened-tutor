@@ -160,7 +160,7 @@ def load_or_fetch_event(event_id: int, event_name: str, format: Format) -> Event
 
 def load_event(event_id: int) -> Event | None:
     result = database.select('SELECT id, name, format, url, level, num_players, date FROM event WHERE id = ?', [event_id])
-    return Event(*result[0]) if result else None
+    return Event(**result[0]) if result else None
 
 def fetch_event(event_id: int, event_name: str, format: Format) -> Event:
     s = fetch(HTTPMethod.GET, f'/event?e={event_id}')
