@@ -1,5 +1,4 @@
 - Option to sort cards by name or interestingness
-- Card images? As a kind of header or as the background or off to the side?
 - Less than four columns at narrow widths
 - Prices
 - Ability to say what formats you do and do not care about
@@ -22,3 +21,4 @@
 - Scryfall search for cards?
 - When you click on the paste list tab, focus in the textarea
 - /event?e=37372 is a 500 from mtgtop8 but we try and process it and the scraper breaks
+- There is a bug with split cards as we have them as Fire/Ice from mtgtop8 but Fire // Ice from scryfall

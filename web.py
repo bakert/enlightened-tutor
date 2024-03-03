@@ -76,6 +76,7 @@ def display_score(score: float) -> int:
 def make_card(c: cards.Card) -> nicegui.elements.card.Card:
     highest = display_score(max(c.playability.values(), default=0))
     with ui.card() as card_ui:
+        ui.image(scryfall_img_url(c.name)).classes("h-32 overflow-hidden")
         with ui.row().classes("w-full"):
             ui.html(f"<h2>{c.name}</h2>").classes("text-xl")
             ui.space()
@@ -90,6 +91,10 @@ def make_card(c: cards.Card) -> nicegui.elements.card.Card:
         if not c.playability:
             ui.label("Not played in any format")
     return card_ui
+
+
+def scryfall_img_url(card: str) -> str:
+    return f"https://api.scryfall.com/cards/named?exact={card}&format=image&version=art_crop"
 
 
 init(app)
