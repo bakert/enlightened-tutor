@@ -30,11 +30,13 @@ def init(fastapi_app: FastAPI) -> None:
             for card in cards_list:
                 # Strip leading numbers in case this is a decklist or similar
                 card = re.sub(r"^\d+\s+", "", card)
-                await show_card(card)
+                await show_card(card, show_warnings=True)
 
-        async def show_card(card: str) -> None:
+        async def show_card(card: str, show_warnings: bool = False) -> None:
             c = cards.get_card(card)
             if not c:
+                if card and show_warnings:
+                    ui.notify(f"Card not found: {card}", type="warning")
                 return
             with results:
                 if c.name not in showing:

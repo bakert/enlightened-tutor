@@ -1,10 +1,3 @@
-- Linter
-- Move off 88 char line limit and just don't have one, undo some of what black did
-- I hate the way all the web stuff is stuck "inside" web.init - break it out of there
-- Account for bannings that have happened in the last year (Fury is NOT useful in Modern!)
-- Scryfall search for cards?
-- Display unrecognized card names
-- Don't show a card if it's already showing/appears 2+ times in a list
 - Option to sort cards by name or interestingness
 - Card images? As a kind of header or as the background or off to the side?
 - Less than four columns at narrow widths
@@ -23,3 +16,9 @@
 - When you click through to mtgtop8 then click the back button all state is lost (user_storage?)
 - When you paste a large list (~900 items) nothing happens and there is no error message
 - Apply black on save
+- There's got to be a better way to organize web.py so it isn't indented to nine levels!
+- Some system for keeping CubeCobra up to date (we just have a one time dump)
+- Account for bannings that have happened in the last year (Fury is NOT useful in Modern!)
+- Scryfall search for cards?
+- When you click on the paste list tab, focus in the textarea
+- /event?e=37372 is a 500 from mtgtop8 but we try and process it and the scraper breaks
