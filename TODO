@@ -1,9 +1,7 @@
-- More than one card as input
-- Scryfall search for cards?
 - Prices
 - Ability to say what formats you do and do not care about
 - Overall score for a card
-- Link back to ntgotop8.com as the "explanation" of the score
+- Link back to mtgotop8.com as the "explanation" of the score
 - CubeCobra
 - Penny Dreadful as a format (using pd rank?)
 - "Normal" EDH using edhrec rank
@@ -17,3 +15,10 @@
 - Linter
 - CI/CD in github
 - I hate the way all the web stuff is stuck "inside" web.init - break it out of there
+- More than one card as input
+- Account for bannings that have happened in the last year (Fury is NOT useful in Modern!)
+- Scryfall search for cards?
+- Display unrecognized card names
+- Don't show a card if it's already showing/appears 2+ times in a list
+- Option to sort cards by name or interestingness
+- Card images? As a kind of header or as the background or off to the side?
