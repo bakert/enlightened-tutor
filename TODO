@@ -1,10 +1,5 @@
-- Prices
-- Ability to say what formats you do and do not care about
-- Penny Dreadful as a format (using pd rank?)
-- Default to a set of formats that make sense (no Peasant, Duel Commander, etc.)?
 - Improve the overall score display so that it has a credit score colored arc
 - Recalculate playability with the full (year's) data
-- CubeCobra
 - "Normal" EDH using edhrec rank
 - Suppress Duel Commander, Canadian Highlander, Highlander and maybe others by default?
 - Configurable "formats I care about"
@@ -22,3 +17,10 @@
 - There is a bug with split cards as we have them as Fire/Ice from mtgtop8 but Fire // Ice from scryfall
 - Option to sort cards by name or interestingness
 - We shouldn't allow Wandering Archaic // Explore the Vastlands only Wandering Archaic, or at least only display Wandering Archaic
+- There should probably be an overarching Aspects (or Attributes or Features) enum that knows all the mtgtop8 formats + Cube elo/popularity + any other features and what the codes, display names and URLs for those are
+- There are some extreme outliers on cube elo so we need to take the log of the value or cap at 3000 or otherwise prevent almost everything except Black Lotus having a low score
+- Prices
+- Ability to say what formats you do and do not care about
+- Penny Dreadful as a format (using pd rank?)
+- Default to a set of formats that make sense (no Peasant, Duel Commander, etc.)?
+- Sol Ring has a cube popularity of 0 (wat) which also displays in the wrong place in the card (wat)

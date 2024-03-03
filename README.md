@@ -17,7 +17,7 @@ MIT License
 - $ mysql
 - mysql> CREATE USER 'enlightened_tutor'@'localhost' IDENTIFIED BY 'YOUR-PASSWORD-HERE';
 - mysql> GRANT ALL ON enlightened_tutor.* TO 'enlightened_tutor'@'localhost';
-- Run the SQL in enlightened-tutor.sql, or restore a backup from data/
+- Run the SQL in enlightened-tutor.sql, or (better) restore a backup from data/ (after gunzipping)
 - Copy config.ini.example to config.ini and fill in the database information
 
 ### Web Server
@@ -27,5 +27,7 @@ MIT License
 ### Populate Database
 - Restore latest file in data/ to avoid hours of requests
 - $ python3 mtgtop8.py # You can kill this once it starts seeing decks you already have
-- $ python3 -c "import cards; cards.set_playability()"
 - $ python3 -c 'import scryfall; scryfall.import_cards()'
+- $ gunzip data/carddict.json.gz
+- $ python3 -c 'import cubecobra; cubecobra.load()'
+- $ python3 -c "import cards; cards.set_playability()"

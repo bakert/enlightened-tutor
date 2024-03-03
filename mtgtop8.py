@@ -95,7 +95,7 @@ class InvalidHTTPMethod(Exception):
 
 
 def main() -> None:
-    page = 3581
+    page = 1
     while True:
         rows = search(page)
         for row in rows:

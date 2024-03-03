@@ -61,6 +61,7 @@ def init(fastapi_app: FastAPI) -> None:
         results = ui.row()
         with ui.footer():
             ui.link("Tournament results from mtgtop8.com", "https://www.mtgtop8.com/").classes("text-xs text-white")
+            ui.link("Cube data from cubecobra.com", "https://cubecobra.com/").classes("text-xs text-white")
             ui.label(f"© {datetime.date.today().year} Thomas David Baker (bakert@gmail.com)").classes("text-xs")
 
     ui.run_with(
@@ -82,7 +83,7 @@ def make_card(c: cards.Card) -> nicegui.elements.card.Card:
             ui.space()
             ui.html(f"<h2>{highest}</h2>").classes("text-xl")
         for (format_name, format_code), score in c.playability.items():
-            with ui.link(target=f"https://mtgtop8.com/search?MD_check=1&SB_check=1&format={format_code}&cards={c.name}").classes("w-full no-underline hover:underline"):
+            with ui.link(target=make_link(format_code, c.name)).classes("w-full no-underline hover:underline"):
                 with ui.row():
                     ui.label(f"{format_name}")
                     ui.space()
@@ -91,6 +92,12 @@ def make_card(c: cards.Card) -> nicegui.elements.card.Card:
         if not c.playability:
             ui.label("Not played in any format")
     return card_ui
+
+
+def make_link(format_code: str, card: str) -> str:
+    if format_code in ["CPOP", "CELO"]:
+        return f"https://cubecobra.com/tool/card/{card}"
+    return f"https://mtgtop8.com/search?MD_check=1&SB_check=1&format={format_code}&cards={card}"
 
 
 def scryfall_img_url(card: str) -> str:

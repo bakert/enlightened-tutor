@@ -19,4 +19,6 @@ def display_name(code: str) -> str:
         "ALCH": "Alchemy",
         "PREM": "Premodern",
         "LI": "Limited",
+        "CPOP": "Cube Popularity",
+        "CELO": "Cube Elo",
     }[code]

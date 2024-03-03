@@ -7,6 +7,10 @@ bin/
 lib/
 include/
 
+# Uncompressed data files
+data/*.sql
+data/*.json
+
 # Python cache
 __pycache__/
 
