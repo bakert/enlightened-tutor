@@ -1,5 +1,3 @@
-- Option to sort cards by name or interestingness
-- Less than four columns at narrow widths
 - Prices
 - Ability to say what formats you do and do not care about
 - Penny Dreadful as a format (using pd rank?)
@@ -22,3 +20,5 @@
 - When you click on the paste list tab, focus in the textarea
 - /event?e=37372 is a 500 from mtgtop8 but we try and process it and the scraper breaks
 - There is a bug with split cards as we have them as Fire/Ice from mtgtop8 but Fire // Ice from scryfall
+- Option to sort cards by name or interestingness
+- We shouldn't allow Wandering Archaic // Explore the Vastlands only Wandering Archaic, or at least only display Wandering Archaic

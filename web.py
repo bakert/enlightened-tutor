@@ -58,7 +58,7 @@ def init(fastapi_app: FastAPI) -> None:
                 ui.textarea(on_change=paste).classes("w-96")
             with ui.tab_panel(upload_file_tab):
                 ui.upload(label="Upload File", auto_upload=True, on_upload=upload)
-        results = ui.grid(columns=4)
+        results = ui.row()
         with ui.footer():
             ui.link("Tournament results from mtgtop8.com", "https://www.mtgtop8.com/").classes("text-xs text-white")
             ui.label(f"© {datetime.date.today().year} Thomas David Baker (bakert@gmail.com)").classes("text-xs")
@@ -75,7 +75,7 @@ def display_score(score: float) -> int:
 
 def make_card(c: cards.Card) -> nicegui.elements.card.Card:
     highest = display_score(max(c.playability.values(), default=0))
-    with ui.card() as card_ui:
+    with ui.card().classes("w-64") as card_ui:
         ui.image(scryfall_img_url(c.name)).classes("h-32 overflow-hidden")
         with ui.row().classes("w-full"):
             ui.html(f"<h2>{c.name}</h2>").classes("text-xl")
