@@ -19,9 +19,7 @@ class Database:
         )
         self.cursor = self.connection.cursor(dictionary=True)
 
-    def execute(
-        self, sql: str, args: list[Value], fetch_rows: bool = False
-    ) -> ResultSet | int:
+    def execute(self, sql: str, args: list[Value], fetch_rows: bool = False) -> ResultSet | int:
         print(sql, args)
         self.cursor.execute(sql, args)
         self.connection.commit()

@@ -45,9 +45,7 @@ def init(fastapi_app: FastAPI) -> None:
                             ui.space()
                             ui.html(f"<h2>{highest}</h2>").classes("text-xl")
                         for (format_name, format_code), score in c.playability.items():
-                            with ui.link(
-                                target=f"https://mtgtop8.com/search?MD_check=1&SB_check=1&format={format_code}&cards={c.name}"
-                            ).classes("w-full no-underline hover:underline"):
+                            with ui.link(target=f"https://mtgtop8.com/search?MD_check=1&SB_check=1&format={format_code}&cards={c.name}").classes("w-full no-underline hover:underline"):
                                 with ui.row():
                                     ui.label(f"{format_name}")
                                     ui.space()
@@ -67,21 +65,15 @@ def init(fastapi_app: FastAPI) -> None:
         with ui.tab_panels(tabs, value=search_tab):
             with ui.tab_panel(search_tab):
                 cs = cards.get_card_names()
-                ui.input(autocomplete=cs, on_change=search).classes("w-96").props(
-                    "autofocus"
-                )
+                ui.input(autocomplete=cs, on_change=search).classes("w-96").props("autofocus")
             with ui.tab_panel(paste_list_tab):
                 ui.textarea(on_change=paste).classes("w-96")
             with ui.tab_panel(upload_file_tab):
                 ui.upload(label="Upload File", auto_upload=True, on_upload=upload)
         results = ui.grid(columns=4)
         with ui.footer():
-            ui.link(
-                "Tournament results from mtgtop8.com", "https://www.mtgtop8.com/"
-            ).classes("text-xs text-white")
-            ui.label(
-                f"© {datetime.date.today().year} Thomas David Baker (bakert@gmail.com)"
-            ).classes("text-xs")
+            ui.link("Tournament results from mtgtop8.com", "https://www.mtgtop8.com/").classes("text-xs text-white")
+            ui.label(f"© {datetime.date.today().year} Thomas David Baker (bakert@gmail.com)").classes("text-xs")
 
     ui.run_with(
         fastapi_app,

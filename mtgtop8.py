@@ -100,9 +100,7 @@ def main() -> None:
         rows = search(page)
         for row in rows:
             event = load_or_fetch_event(row.event_id, row.event_name, row.format)
-            load_or_fetch_deck(
-                row.deck_id, row.deck_name, row.player, event.id, row.rank
-            )
+            load_or_fetch_deck(row.deck_id, row.deck_name, row.player, event.id, row.rank)
         page += 1
 
 
@@ -146,9 +144,7 @@ def parse_search(s: str) -> list[Row]:
         rank = parse_rank(tds[6].string)
         #     <td class=S11>25/02/24</td>
         date = datetime.strptime(tds[7].string, "%d/%m/%y")
-        row = Row(
-            deck_name, deck_id, player, format, event_name, event_id, level, rank, date
-        )
+        row = Row(deck_name, deck_id, player, format, event_name, event_id, level, rank, date)
         rows.append(row)
     return rows
 
@@ -156,9 +152,7 @@ def parse_search(s: str) -> list[Row]:
 def parse_level(elem: bs4.element.Tag) -> Level:
     if "bigstar" in str(elem):
         return Level.PROFESSIONAL
-    return Level(
-        len(elem.find_all("img"))
-    )  # 1, 2 or 3 star images for the three lower levels
+    return Level(len(elem.find_all("img")))  # 1, 2 or 3 star images for the three lower levels
 
 
 def parse_rank(rank: str) -> Rank:
@@ -236,9 +230,7 @@ def store_event(event: Event) -> Event:
     return load_event(event.id)  # type: ignore[return-value]
 
 
-def load_or_fetch_deck(
-    deck_id: int, deck_name: str, player: str, event_id: int, rank: Rank
-) -> None:
+def load_or_fetch_deck(deck_id: int, deck_name: str, player: str, event_id: int, rank: Rank) -> None:
     if not database.select("SELECT id FROM deck WHERE id = ?", [deck_id]):
         deck = Deck(deck_id, deck_name, player, event_id, rank, [])
         deck.decklist = fetch_decklist(deck_id)
@@ -278,9 +270,7 @@ def store_deck(deck: Deck) -> None:
         )
 
 
-def fetch(
-    method: HTTPMethod, path: str, data: dict[str, Any] | None = None, failures: int = 0
-) -> str:
+def fetch(method: HTTPMethod, path: str, data: dict[str, Any] | None = None, failures: int = 0) -> str:
     s = f"Fetching {method} {path}"
     if data:
         s += f" with {data}"
