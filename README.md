@@ -29,5 +29,5 @@ MIT License
 - $ python3 mtgtop8.py # You can kill this once it starts seeing decks you already have
 - $ python3 -c 'import scryfall; scryfall.import_cards()'
 - $ gunzip data/carddict.json.gz
-- $ python3 -c 'import cubecobra; cubecobra.load()'
 - $ python3 -c "import cards; cards.set_playability()"
+- $ python3 -c 'import cubecobra; cubecobra.load()'

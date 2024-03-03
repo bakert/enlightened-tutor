@@ -1,5 +1,4 @@
-- Improve the overall score display so that it has a credit score colored arc
-- Recalculate playability with the full (year's) data
+- Recalculate playability with the full (year's) data on prod and then run cube import (has to run after)
 - "Normal" EDH using edhrec rank
 - Suppress Duel Commander, Canadian Highlander, Highlander and maybe others by default?
 - Configurable "formats I care about"
@@ -24,3 +23,4 @@
 - Penny Dreadful as a format (using pd rank?)
 - Default to a set of formats that make sense (no Peasant, Duel Commander, etc.)?
 - Sol Ring has a cube popularity of 0 (wat) which also displays in the wrong place in the card (wat)
+- Improve the overall score display so that it has a credit score colored arc
