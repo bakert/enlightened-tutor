@@ -26,7 +26,7 @@ def init(fastapi_app: FastAPI) -> None:
             await show_cards(text)
 
         async def show_cards(text: str) -> None:
-            cards_list = text.splitlines()[0:50]  # Limit rather than fail entirely. Later, pagination.
+            cards_list = text.splitlines()[0:25]  # Limit rather than fail entirely. Later, pagination.
             for card in cards_list:
                 # Strip leading numbers in case this is a decklist or similar
                 card = re.sub(r"^\d+\s+", "", card)
@@ -64,10 +64,7 @@ def init(fastapi_app: FastAPI) -> None:
             ui.link("Cube data from cubecobra.com", "https://cubecobra.com/").classes("text-xs text-white")
             ui.label(f"© {datetime.date.today().year} Thomas David Baker (bakert@gmail.com)").classes("text-xs")
 
-    ui.run_with(
-        fastapi_app,
-        mount_path="/",
-    )
+    ui.run_with(fastapi_app, mount_path="/")
 
 
 def display_score(score: float) -> int:
