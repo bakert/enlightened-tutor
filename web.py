@@ -26,7 +26,7 @@ def init(fastapi_app: FastAPI) -> None:
             await show_cards(text)
 
         async def show_cards(text: str) -> None:
-            cards_list = text.splitlines()
+            cards_list = text.splitlines()[0:50]  # Limit rather than fail entirely. Later, pagination.
             for card in cards_list:
                 # Strip leading numbers in case this is a decklist or similar
                 card = re.sub(r"^\d+\s+", "", card)

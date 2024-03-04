@@ -1,26 +1,25 @@
-- Recalculate playability with the full (year's) data on prod and then run cube import (has to run after)
-- "Normal" EDH using edhrec rank
+- Sol Ring has a cube popularity of 0 (wat) which also displays in the wrong place in the card (wat)
+- Improve the overall score display so that it has a credit score colored arc behind it
+- "Normal" EDH popularity using edhrec rank
 - Suppress Duel Commander, Canadian Highlander, Highlander and maybe others by default?
 - Configurable "formats I care about"
 - cron to keep db (and playability, and card names) up to date
 - CI/CD in github
 - When you click through to mtgtop8 then click the back button all state is lost (user_storage?)
-- When you paste a large list (~900 items) nothing happens and there is no error message
-- Apply black on save
-- There's got to be a better way to organize web.py so it isn't indented to nine levels!
 - Some system for keeping CubeCobra up to date (we just have a one time dump)
-- Account for bannings that have happened in the last year (Fury is NOT useful in Modern!)
 - Scryfall search for cards?
+- When you paste or upload a large list (~900 items) nothing happens and there is no error message, so I've limited number of cards to 50. Instead, paginate or otherwise improve handling
+- Account for bannings that have happened in the last year (Fury is NOT useful in Modern!)
 - When you click on the paste list tab, focus in the textarea
 - /event?e=37372 is a 500 from mtgtop8 but we try and process it and the scraper breaks
 - There is a bug with split cards as we have them as Fire/Ice from mtgtop8 but Fire // Ice from scryfall
 - Option to sort cards by name or interestingness
 - We shouldn't allow Wandering Archaic // Explore the Vastlands only Wandering Archaic, or at least only display Wandering Archaic
 - There should probably be an overarching Aspects (or Attributes or Features) enum that knows all the mtgtop8 formats + Cube elo/popularity + any other features and what the codes, display names and URLs for those are
+- Even at current fairly wide card size long card names like Sword of Feast and Famine display poorly
 - There are some extreme outliers on cube elo so we need to take the log of the value or cap at 3000 or otherwise prevent almost everything except Black Lotus having a low score
-- Prices
+- Price as an aspect of interestingness (implies we have to care about which printing?)
+- Chrome extension to add this info to Scryfall instead of having to go to a separate site
 - Ability to say what formats you do and do not care about
 - Penny Dreadful as a format (using pd rank?)
 - Default to a set of formats that make sense (no Peasant, Duel Commander, etc.)?
-- Sol Ring has a cube popularity of 0 (wat) which also displays in the wrong place in the card (wat)
-- Improve the overall score display so that it has a credit score colored arc

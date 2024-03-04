@@ -11,10 +11,7 @@ class Card:
 
 
 def get_card(card: str) -> Card | None:
-    rs = database.select(
-        "SELECT card, normalized_score, format FROM card_playability WHERE card = ? ORDER BY normalized_score DESC, format",
-        [card],
-    )
+    rs = database.select("SELECT card, normalized_score, format FROM card_playability WHERE card = ? ORDER BY normalized_score DESC, format", [card])
     if rs:
         playability = {(formats.display_name(row["format"]), row["format"]): row["normalized_score"] for row in rs}  # type: ignore[arg-type]
         return Card(rs[0]["card"], playability)  # type: ignore[arg-type]
