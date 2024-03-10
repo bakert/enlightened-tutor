@@ -176,10 +176,7 @@ def load_or_fetch_event(event_id: int, event_name: str, format: Format) -> Event
 
 
 def load_event(event_id: int) -> Event | None:
-    result = database.select(
-        "SELECT id, name, format, url, level, num_players, date FROM event WHERE id = ?",
-        [event_id],
-    )
+    result = database.select("SELECT id, name, format, url, level, num_players, date FROM event WHERE id = ?", [event_id])
     return Event(**result[0]) if result else None  # type: ignore[arg-type]
 
 
@@ -215,26 +212,16 @@ def parse_event(event_id: int, event_name: str, format: Format, s: str) -> Event
 
 
 def store_event(event: Event) -> Event:
-    database.insert(
-        "INSERT INTO event (id, name, date, format, level, url, num_players) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [
-            event.id,
-            event.name,
-            event.date,
-            event.format.value,
-            event.level.value,
-            event.url,
-            event.num_players,
-        ],
-    )
+    database.insert("INSERT INTO event (id, name, date, format, level, url, num_players) VALUES (?, ?, ?, ?, ?, ?, ?)", [event.id, event.name, event.date, event.format.value, event.level.value, event.url, event.num_players])
     return load_event(event.id)  # type: ignore[return-value]
 
 
 def load_or_fetch_deck(deck_id: int, deck_name: str, player: str, event_id: int, rank: Rank) -> None:
-    if not database.select("SELECT id FROM deck WHERE id = ?", [deck_id]):
-        deck = Deck(deck_id, deck_name, player, event_id, rank, [])
-        deck.decklist = fetch_decklist(deck_id)
-        store_deck(deck)
+    if database.select("SELECT id FROM deck WHERE id = ?", [deck_id]):
+        return
+    deck = Deck(deck_id, deck_name, player, event_id, rank, [])
+    deck.decklist = fetch_decklist(deck_id)
+    store_deck(deck)
 
 
 def fetch_decklist(deck_id: int) -> list[Entry]:
@@ -259,15 +246,9 @@ def parse_decklist(s: str) -> list[Entry]:
 
 
 def store_deck(deck: Deck) -> None:
-    database.insert(
-        "INSERT INTO deck (id, name, player, event_id, rank_high, rank_low) VALUES (?, ?, ?, ?, ?, ?)",
-        [deck.id, deck.name, deck.player, deck.event_id, deck.rank.high, deck.rank.low],
-    )
+    database.insert("INSERT INTO deck (id, name, player, event_id, rank_high, rank_low) VALUES (?, ?, ?, ?, ?, ?)", [deck.id, deck.name, deck.player, deck.event_id, deck.rank.high, deck.rank.low])
     for entry in deck.decklist:
-        database.insert(
-            "INSERT INTO deck_card (deck_id, card, num, sideboard) VALUES (?, ?, ?, ?)",
-            [deck.id, entry.card, entry.num, entry.sideboard],
-        )
+        database.insert("INSERT INTO deck_card (deck_id, card, num, sideboard) VALUES (?, ?, ?, ?)", [deck.id, entry.card, entry.num, entry.sideboard])
 
 
 def fetch(method: HTTPMethod, path: str, data: dict[str, Any] | None = None, failures: int = 0) -> str:

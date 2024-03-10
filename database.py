@@ -10,18 +10,26 @@ ResultSet = list[Row]
 
 
 class Database:
+    connection: mariadb.Connection
+    cursor: mariadb.Cursor
+
     def __init__(self) -> None:
-        self.connection = mariadb.connect(
-            host=config.get("database", "host"),
-            user=config.get("database", "user"),
-            password=config.get("database", "password"),
-            database=config.get("database", "database"),
-        )
+        self.connect()
+
+    def connect(self) -> None:
+        self.connection = mariadb.connect(host=config.get("database", "host"), user=config.get("database", "user"), password=config.get("database", "password"), database=config.get("database", "database"))
         self.cursor = self.connection.cursor(dictionary=True)
 
     def execute(self, sql: str, args: list[Value], fetch_rows: bool = False) -> ResultSet | int:
         print(sql, args)
-        self.cursor.execute(sql, args)
+        try:
+            self.cursor.execute(sql, args)
+        except mariadb.InterfaceError as e:
+            if "Server has gone away" in str(e):
+                print("mariadb Server has gone away, trying to reconnect")
+                self.connect()
+                return self.cursor.execute(sql, args)  # type: ignore[no-any-return]
+            raise
         self.connection.commit()
         if fetch_rows:
             return self.cursor.fetchall()  # type: ignore[no-any-return]
