@@ -100,7 +100,7 @@ class RemoteError(Exception):
 
 
 def main() -> None:
-    page = 4500
+    page = 1
     while True:
         rows = search(page)
         for row in rows:
