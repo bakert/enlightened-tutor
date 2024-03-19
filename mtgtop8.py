@@ -5,9 +5,10 @@ from http import HTTPMethod
 from time import sleep
 from typing import Any
 from urllib.parse import urlparse, parse_qs
+import sys
 
 from bs4 import BeautifulSoup
-from requests.exceptions import ConnectionError  # type: ignore[import-untyped]
+from requests.exceptions import ConnectionError, HTTPError  # type: ignore[import-untyped]
 import bs4
 import requests  # type: ignore[import-untyped]
 
@@ -94,13 +95,20 @@ class InvalidHTTPMethod(Exception):
     pass
 
 
+class RemoteError(Exception):
+    pass
+
+
 def main() -> None:
-    page = 1
+    page = 4500
     while True:
         rows = search(page)
         for row in rows:
-            event = load_or_fetch_event(row.event_id, row.event_name, row.format)
-            load_or_fetch_deck(row.deck_id, row.deck_name, row.player, event.id, row.rank)
+            try:
+                event = load_or_fetch_event(row.event_id, row.event_name, row.format)
+                load_or_fetch_deck(row.deck_id, row.deck_name, row.player, event.id, row.rank)
+            except HTTPError as e:
+                print(f"Skipping a row ({row}) due to a remote error: {e}", file=sys.stderr)
         page += 1
 
 
@@ -265,6 +273,7 @@ def fetch(method: HTTPMethod, path: str, data: dict[str, Any] | None = None, fai
             raise
         sleep(5)
         return fetch(method, path, data, failures + 1)
+    response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
     return response.text  # type: ignore[no-any-return]
 
 
